@@ -23,7 +23,7 @@ namespace PedidoDeVenda.Services
             _pedidos.CriarPedido(pedido);
         }
 
-        public void RemoverPedido(Pedido pedido)
+        public void RemoverPedido(int id, Pedido pedido)
         {
             if (pedido == null)
             {
@@ -45,17 +45,18 @@ namespace PedidoDeVenda.Services
             return p;
         }
 
-        public void AdicionarItem(PedidoItem item)
+        public void AdicionarItem(int id, ItemPedido item)
         {
+            
             if (item == null)
             {
                 throw new DomainException("Item não pode ser nulo.");
             }
 
-            _pedidos.AdicionarItem(item);
+            _pedidos.AdicionarItem();
         }
 
-        public void RemoverItem(PedidoItem item)
+        public void RemoverItem(int id, ItemPedido item)
         {
             if (item == null)
             {

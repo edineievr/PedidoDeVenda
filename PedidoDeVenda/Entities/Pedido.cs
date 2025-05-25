@@ -7,7 +7,7 @@ namespace PedidoDeVenda.Entities
     {
 
         public int Id { get; private set; }
-        public List<PedidoItem> Itens { get; private set; }
+        public List<ItemPedido> Itens { get; private set; }
         public DateTime DataCriacao { get; private set; }
         public decimal ValorTotalItens { get; private set; }
         public StatusPedido Status { get; private set; }
@@ -15,17 +15,17 @@ namespace PedidoDeVenda.Entities
         public Pedido(int id)
         {
             Id = id;
-            Itens = new List<PedidoItem>();
+            Itens = new List<ItemPedido>();
             DataCriacao = DateTime.Now;
             Status = StatusPedido.Pendente;
         }
 
-        public List<PedidoItem> ListarItens()
+        public List<ItemPedido> ListarItens()
         {
             return Itens;
         }
 
-        public PedidoItem BuscaPorId(int id)
+        public ItemPedido BuscaPorId(int id)
         {
             var item = Itens.FirstOrDefault(x => x.Id == id);
 
@@ -37,14 +37,16 @@ namespace PedidoDeVenda.Entities
             return item;
         }
 
-        public void AdicionaItem(PedidoItem item)
+        public void AdicionaItem(int id, ItemPedido item)
         {
+            
+            
             if (item == null)
             {
                 throw new DomainException("Item não pode ser nulo.");
             }
 
-            Itens.Add(item);
+            Itens.Add(item.);
         }
 
         public void RemoveItem(int id)
@@ -58,7 +60,7 @@ namespace PedidoDeVenda.Entities
         {
             decimal total = 0;
 
-            foreach (PedidoItem item in Itens)
+            foreach (ItemPedido item in Itens)
             {
                 total += item.TotalItem();
             }

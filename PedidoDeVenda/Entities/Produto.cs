@@ -23,7 +23,7 @@ namespace PedidoDeVenda.Entities
 
             if (saldo < 0)
             {
-                throw new DomainException("Quantidade não pode ser menor que o.");
+                throw new DomainException("Quantidade não pode ser menor que 0.");
             }
 
             if (preco < 0)
