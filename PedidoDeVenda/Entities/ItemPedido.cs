@@ -7,14 +7,7 @@ namespace PedidoDeVenda.Entities
 
         public int Id { get; set; }
         public Produto Produto { get; set; }
-        public int ItemQuantidade { get; set; }
-
-        
-
-        public PedidoItem()
-        {
-
-        }
+        public int ItemQuantidade { get; set; } 
 
         public PedidoItem(Produto produto, int itemQuantidade)
         {

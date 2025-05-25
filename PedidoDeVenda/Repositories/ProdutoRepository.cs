@@ -5,7 +5,7 @@ namespace PedidoDeVenda.Repositories
 {
     public class ProdutoRepository : IProdutoRepository
     {
-        private List<Produto> _produtos;
+        private readonly List<Produto> _produtos;
 
         public ProdutoRepository() {
 
@@ -17,7 +17,7 @@ namespace PedidoDeVenda.Repositories
             return _produtos;
         }
 
-        public void AdicionarProduto(Produto produto)
+        public void CriarProduto(Produto produto)
         {
             _produtos.Add(produto);
         }
