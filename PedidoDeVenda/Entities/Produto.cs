@@ -6,8 +6,7 @@ namespace PedidoDeVenda.Entities
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public int Quantidade { get; private set; }
-
+        public int Saldo { get; private set; }
         public decimal Preco { get; private set; }
 
         public Produto()
@@ -15,14 +14,14 @@ namespace PedidoDeVenda.Entities
 
         }
 
-        public Produto(int id, string nome, int quantidade, decimal preco)
+        public Produto(int id, string nome, int saldo, decimal preco)
         {
             if (string.IsNullOrEmpty(nome))
             {
                 throw new DomainException("Nome não pode ser vazio.");
             }
 
-            if (quantidade < 0)
+            if (saldo < 0)
             {
                 throw new DomainException("Quantidade não pode ser menor que o.");
             }
@@ -34,33 +33,33 @@ namespace PedidoDeVenda.Entities
 
             Id = id;
             Nome = nome;
-            Quantidade = quantidade;
+            Saldo = saldo;
             Preco = preco;
         }
 
-        public void AdicionaQuantidade(int quantidade)
+        public void AdicionaSaldo(int saldo)
         {
-            if (quantidade < 0)
+            if (saldo < 0)
             {
                 throw new DomainException("Não é possível adicionar quantidade negativa.");
             }
 
-            Quantidade += quantidade;
+            Saldo += saldo;
         }
 
-        public void RemoveQuantidade(int quantidade)
+        public void RemoveSaldo(int saldo)
         {
-            if (quantidade <= 0)
+            if (saldo <= 0)
             {
                 throw new DomainException("Quantidade para remover deve ser maior que 0.");
             }
 
-            if (Quantidade < quantidade)
+            if (Saldo < saldo)
             {
                 throw new DomainException("Saldo insuficiente.");
             }
 
-            Quantidade -= quantidade;
+            Saldo -= saldo;
             
         }
 
