@@ -23,14 +23,16 @@ namespace PedidoDeVenda.Services
             _pedidos.CriarPedido(pedido);
         }
 
-        public void RemoverPedido(int id, Pedido pedido)
+        public void RemoverPedido(int id)
         {
-            if (pedido == null)
+            var p = _pedidos.BuscaPorId(id);
+
+            if (p == null)
             {
-                throw new DomainException("Pedido não pode ser nulo");
+                throw new DomainException("Pedido não encontrado");
             }
 
-            _pedidos.RemoverPedido(pedido);
+            _pedidos.RemoverPedido(id);
         }
 
         public Pedido BuscarPorId(int id)
@@ -47,23 +49,27 @@ namespace PedidoDeVenda.Services
 
         public void AdicionarItem(int id, ItemPedido item)
         {
-            
-            if (item == null)
+
+            var p = _pedidos.BuscaPorId(id);
+
+            if (p == null)
             {
-                throw new DomainException("Item não pode ser nulo.");
+                throw new DomainException("Pedido não encontrado.");
             }
 
-            _pedidos.AdicionarItem();
+            p.AdicionaItem(item);
         }
 
-        public void RemoverItem(int id, ItemPedido item)
+        public void RemoverItem(int id, int idItem)
         {
-            if (item == null)
+            var p = BuscarPorId(id);
+
+            if (p == null)
             {
-                throw new DomainException("Item não pode ser nulo.");
+                throw new DomainException("Pedido não encontrado.");
             }
 
-            _pedidos.RemoverItem(item);
+            p.RemoveItem(idItem);
         }
 
     }

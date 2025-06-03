@@ -37,16 +37,15 @@ namespace PedidoDeVenda.Entities
             return item;
         }
 
-        public void AdicionaItem(int id, ItemPedido item)
-        {
+        public void AdicionaItem(ItemPedido itemPedido)
+        {          
             
-            
-            if (item == null)
+            if (itemPedido == null)
             {
                 throw new DomainException("Item não pode ser nulo.");
             }
 
-            Itens.Add(item.);
+            Itens.Add(itemPedido);
         }
 
         public void RemoveItem(int id)

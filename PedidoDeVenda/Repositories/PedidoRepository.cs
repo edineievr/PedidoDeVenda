@@ -13,14 +13,17 @@ namespace PedidoDeVenda.Repositories
             _pedidos = new List<Pedido>();
         }
 
-        public void CriaPedido(Pedido pedido)
+        public void CriarPedido(Pedido pedido)
         {
             _pedidos.Add(pedido);
         }
 
-        public void RemoverPedido(Pedido pedido)
+        public void RemoverPedido(int id)
         {
-            _pedidos.Remove(pedido);
+            var p = BuscaPorId(id);
+
+            _pedidos.Remove(p);
+
         }
 
         public List<Pedido> ListarTodos()
@@ -35,6 +38,19 @@ namespace PedidoDeVenda.Repositories
             return pedido;
         }
 
+        public void AdicionarItem(int idPedido, ItemPedido itemPedido)
+        {
+            var p = BuscaPorId(idPedido);
 
+            p.AdicionaItem(itemPedido);             
+
+        }
+
+        public void RemoverItem(int idPedido, int id)
+        {
+            var p = BuscaPorId(idPedido);
+
+            p.RemoveItem(id);                       
+        }
     }
 }

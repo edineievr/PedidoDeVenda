@@ -1,4 +1,5 @@
 ﻿using PedidoDeVenda.Entities;
+using PedidoDeVenda.Entities.Exceptions;
 using PedidoDeVenda.Repositories.Interfaces;
 
 namespace PedidoDeVenda.Repositories
@@ -25,17 +26,30 @@ namespace PedidoDeVenda.Repositories
         public Produto BuscaPorId(int id)
         {
             var produto = _produtos.FirstOrDefault(x => x.Id == id);
-
+            
             return produto;
         }
 
-        public void RemoverProduto(Produto produto)
+        public void RemoverProduto(int id)
         {
+            var produto = BuscaPorId(id);
+
             _produtos.Remove(produto);
         }
 
+        public void AlteraNomeProduto(int id, string nome)
+        {
+            var p = BuscaPorId(id);
+            
+            p.AtualizaNomeProduto(nome);
 
+        }
 
+        public void AlteraPrecoProduto(int id, decimal precoAtualizado)
+        {
+            var p = BuscaPorId(id);
 
+            p.AlteraValorProduto(precoAtualizado);
+        }
     }
 }

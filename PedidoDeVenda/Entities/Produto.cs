@@ -73,7 +73,7 @@ namespace PedidoDeVenda.Entities
             Nome = nome;
         }
 
-        public void AlteraValorProduto(decimal preco)
+        public void AtualizaValorProduto(decimal preco)
         {
             if (preco < 0)
             {

@@ -1,10 +1,11 @@
 ﻿using PedidoDeVenda.Repositories.Interfaces;
 using PedidoDeVenda.Entities;
 using PedidoDeVenda.Entities.Exceptions;
+using PedidoDeVenda.Services.Interfaces;
 
 namespace PedidoDeVenda.Services
 {
-    public class ProdutoService
+    public class ProdutoService : IProdutoService
     {
         private readonly IProdutoRepository _produtoRepository;
 
@@ -23,14 +24,17 @@ namespace PedidoDeVenda.Services
             _produtoRepository.CriarProduto(produto);
         }
 
-        public void RemoveProduto(Produto produto)
+        public void RemoverProduto(int id)
         {
+            var produto = BuscaPorId(id);
+
             if (produto == null)
             {
-                throw new DomainException("Produto não pode ser nulo.");
+                throw new DomainException("Não localizado");
             }
 
-            _produtoRepository.RemoverProduto(produto);
+            _produtoRepository.RemoverProduto(id);
+            
         }
 
         public List<Produto> ListarTodos()
@@ -48,6 +52,40 @@ namespace PedidoDeVenda.Services
             }
 
             return p;
+        }
+
+        public void AtualizaNomeProduto(int id, string nome)
+        {
+            var p = BuscaPorId(id);
+
+            if (p == null)
+            {
+                throw new DomainException("Produto não encontrado.");
+            }
+
+            if (string.IsNullOrEmpty(nome))
+            {
+                throw new DomainException("Nome não pode ser vazio.");
+            }
+
+            p.AtualizaNomeProduto(nome);
+        }
+
+        public void AtualizaPrecoProduto(int id, decimal precoAlterado)
+        {
+            var p = BuscaPorId(id);
+
+            if (p == null)
+            {
+                throw new DomainException("Produto não encontrado.");
+            }
+
+            if (precoAlterado < 0)
+            {
+                throw new DomainException("Valor não pode ser menor que 0.");
+            }
+
+            p.AtualizaValorProduto(precoAlterado);
         }
 
 
