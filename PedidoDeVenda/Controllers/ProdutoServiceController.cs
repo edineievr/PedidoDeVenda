@@ -8,7 +8,7 @@ using PedidoDeVenda.Entities.Exceptions;
 
 namespace PedidoDeVenda.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Produto")]
     [ApiController]
     public class ProdutoServiceController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace PedidoDeVenda.Controllers
 
         public ProdutoServiceController(IProdutoService pedidoService)
         {
-            _produtos = pedidoService;            
+            _produtos = pedidoService;
         }
 
         [HttpGet]
@@ -35,16 +35,96 @@ namespace PedidoDeVenda.Controllers
         [HttpGet("{id}")]
         public IActionResult BuscarPorId(int id)
         {
-            var produto = _produtos.BuscaPorId(id);
-
-            if (produto == null)
+            try
             {
-                return NoContent();
-            }
+                var p = _produtos.BuscaPorId(id);
 
-            return Ok(produto);
+                return Ok(p);
+            }
+            catch (DomainException)
+            {
+                return NotFound();
+            }
         }
 
+        [HttpPost]
+        public ActionResult CriaProduto(Produto produto)
+        {
+            try
+            {
+                _produtos.CriarProduto(produto);
+
+                return CreatedAtAction(nameof(BuscarPorId), new { id = produto.Id}, produto);
+            }
+            catch (DomainException)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeletarProduto(int id)
+        {
+            try
+            {
+                var p = _produtos.BuscaPorId(id);
+
+                _produtos.RemoverProduto(id);
+
+                return NoContent();
+
+            }catch (DomainException)
+            {
+                return NotFound("Produto não encontrado");
+
+            }
+        }
+
+        [HttpPatch("{id}/nome")]
+        public ActionResult AtualizaNomeProduto(int id, string nomeAtualizado)
+        {
+            try
+            {
+                var p = _produtos.BuscaPorId(id);
+
+                if (!string.IsNullOrEmpty(nomeAtualizado))
+                {
+                    p.AtualizaNomeProduto(nomeAtualizado);
+
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest("Nome do produto não pode ser vazio");
+                }
+            }
+            catch (DomainException)
+            {
+                return NotFound("Produto não encontrado");
+            }
+        }
+
+        [HttpPatch("{id}/preco")]
+        public ActionResult AtualizaPrecoProduto(int id, decimal precoAtualizado)
+        {
+            try
+            {
+                var p = _produtos.BuscaPorId(id);
+
+                if (precoAtualizado < 0)
+                {
+                    return BadRequest("Preço do produto não pode ser menor que 0");
+                }
+
+                p.AtualizaValorProduto(precoAtualizado);
+
+                return Ok(p);
+            }
+            catch (DomainException)
+            {
+                return NotFound("Produto não encontrado.");
+            }
+        }
 
     }
 }

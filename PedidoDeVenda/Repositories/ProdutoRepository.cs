@@ -49,7 +49,7 @@ namespace PedidoDeVenda.Repositories
         {
             var p = BuscaPorId(id);
 
-            p.AlteraValorProduto(precoAtualizado);
+            p.AtualizaValorProduto(precoAtualizado);
         }
     }
 }
